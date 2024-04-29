@@ -5,13 +5,15 @@
 docker ps
 ```
 Wynik:
-![alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab1/Screenshots/dockerps.png?raw=true)
+![alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab1/Screenshots/gitclone.png?raw=true)
 
 ### Klonowanie repozytorium
 ```
 git clone https://github.com/phajder/ask-node-react-docker
 ```
 Wynik:
+![alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab1/Screenshots/dockerps.png?raw=true)
+
 ## 2. Baza danych [2 pkt]
 ### Pobranie obrazu z DockerHub:
 ```
