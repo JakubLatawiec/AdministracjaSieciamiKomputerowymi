@@ -6,47 +6,47 @@ services:
   #Kontener bazy danych:
   db:
     build:
-	  context: ./db  #Folder z plikami
-	  dockerfile: Dockerfile  #Nazwa pliku budującego obraz
-	networks:
-	  backend: #Przypisanie do sieci "backend"
-		ipv4_address: 172.38.117.10  #Przypisanie statycznego adresu ip
-	environment:
-	  - MYSQL_ROOT_PASSWORD="Zaq12wsx"  #Przesłanie zmiennej środowiskowej z hasłem dla root
+      context: ./db  #Folder z plikami
+      dockerfile: Dockerfile  #Nazwa pliku budującego obraz
+    networks:
+      backend: #Przypisanie do sieci "backend"
+        ipv4_address: 172.38.117.10  #Przypisanie statycznego adresu ip
+    environment:
+      - MYSQL_ROOT_PASSWORD="Zaq12wsx"  #Przesłanie zmiennej środowiskowej z hasłem dla root
 
   #Kontener API:
   backend:
-	build:
-	  context: ./server  #Folder z plikami
-	  dockerfile: Dockerfile  #Nazwa pliku budującego obraz
-	networks:
-	  backend: #Przypisanie do sieci "backend"
-		ipv4_address: 172.38.117.5  #Przypisanie statycznego adresu ip
-	  frontend: #Przypisanie do sieci "frontend"
-		ipv4_address: 172.58.117.5  #Przypisanie statycznego adresu ip
-	  env_file:
-		- ./server/.env  #Przesłanie pliku ze zmiennymi środowkowymi
-	  volumes:
-		- ./server/src:/app/src  #Przypisanie wolumena
-	  depends_on:
-		- db  #Poczekanie na załadowanie kontenera bazy danych
+    build:
+      context: ./server  #Folder z plikami
+      dockerfile: Dockerfile  #Nazwa pliku budującego obraz
+    networks:
+      backend: #Przypisanie do sieci "backend"
+        ipv4_address: 172.38.117.5  #Przypisanie statycznego adresu ip
+      frontend: #Przypisanie do sieci "frontend"
+        ipv4_address: 172.58.117.5  #Przypisanie statycznego adresu ip
+      env_file:
+        - ./server/.env  #Przesłanie pliku ze zmiennymi środowkowymi
+      volumes:
+        - ./server/src:/app/src  #Przypisanie wolumena
+      depends_on:
+        - db  #Poczekanie na załadowanie kontenera bazy danych
 
   #Kontener aplikacji React:
   frontend:
-	build:
-	  context: ./client  #Folder z plikami
-	  dockerfile: Dockerfile  #Nazwa pliku budującego obraz
-	  ports:
-		- 3333:3000  #Upublicznienie portu 3000 i przekierowanie go na port 3333
-	  networks:
-		frontend: #Przypisanie do sieci "frontend"
-		  ipv4_address: 172.58.117.10  #Przypisanie statycznego adresu ip
-	  environment: #Ustawnienie zmiennych środowiskowych aplikacji
-		- CI=true
-		- DANGEROUSLY_DISABLE_HOST_CHECK=true
-	  volumes: #Podpięcie wolumenów
-		- ./client/src:/app/src
-		- ./client/public:/app/public 
+    build:
+      context: ./client  #Folder z plikami
+      dockerfile: Dockerfile  #Nazwa pliku budującego obraz
+      ports:
+        - 3333:3000  #Upublicznienie portu 3000 i przekierowanie go na port 3333
+      networks:
+        frontend: #Przypisanie do sieci "frontend"
+          ipv4_address: 172.58.117.10  #Przypisanie statycznego adresu ip
+      environment: #Ustawnienie zmiennych środowiskowych aplikacji
+        - CI=true
+        - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      volumes: #Podpięcie wolumenów
+        - ./client/src:/app/src
+        - ./client/public:/app/public 
 ```
 Do poprawnego działania pliku compose.yaml, należy wykonać następny krok.
 
@@ -60,15 +60,15 @@ Do poprawnego działania pliku compose.yaml, należy wykonać następny krok.
 #Tworzenie customowych sieci
 networks:
   frontend: #Sieć o nazwie frontend
-	ipam:
-	  driver: default
-	  config:
-		- subnet: 172.58.117.0/24  #Adresacja sieci
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.58.117.0/24  #Adresacja sieci
   backend: #Sieć o nazwie backend
-	ipam:
-	  driver: default
-	  config:
-		- subnet: 172.38.117.0/24  #Adresacja sieci
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.38.117.0/24  #Adresacja sieci
 ```
 
 ### Zbudowanie obrazów i kontenerów przy użyciu docker compose:
@@ -190,11 +190,11 @@ Zbudowany obraz zostanie wykorzystany w pliku compose-production.yaml w następn
 ``` yaml
 services:
   frontend:
-	image: nginx-app:0.1  #Wykorzystanie zbudowanego wcześniej obrazu
+    image: nginx-app:0.1  #Wykorzystanie zbudowanego wcześniej obrazu
     ports:
-	  - "80:80"  #Udostępnienie i przekierowanie portu 80
-	environment:
-	  - NGINX_ENVSUBST_OUTPUT_DIR="/etc/nginx/nginx.conf"  #Zmienna środowiskowa ze ścieżką konfiguracji
+      - "80:80"  #Udostępnienie i przekierowanie portu 80
+    environment:
+      - NGINX_ENVSUBST_OUTPUT_DIR="/etc/nginx/nginx.conf"  #Zmienna środowiskowa ze ścieżką konfiguracji
 ```
 ### Uruchomienie aplikacji w wersji produkcyjnej:
 ```
