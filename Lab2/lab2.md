@@ -76,6 +76,7 @@ networks:
 docker compose -f compose.yaml up -d
 ```
 ### Wynik:
+![Alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab2/Screenshots/DevelopmentWebsite.png?raw=true)
 
 ## Produkcyjny Dockerfile apki klienckiej [2 pkt]
 ### Plik Dockerfile.Production tworzący obraz aplikacji w wersji produkcyjnej:
@@ -202,3 +203,4 @@ docker compose -f compose.yaml -f compose.production.yaml up -d
 Kontener "frontend" z pliku compose.yaml zostanie nadpisany kontenerem o tej samej nazwie z pliku compose-production.yaml.
 
 ### Wynik:
+![Alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab2/Screenshots/ProductionWebsite.png?raw=true)
