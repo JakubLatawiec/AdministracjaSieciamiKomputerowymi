@@ -16,7 +16,7 @@ services:
       #DNS CHALLENGE
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=duckdns"
-      - "--certificatesresolvers.letsencrypt.acme.email=latawiecj332@gmail.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=tu_byl_moj@email.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
       
     
@@ -25,7 +25,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
     environment:
-      DUCKDNS_TOKEN: 7f319fe0-878b-4de2-9a44-304446bb1e98
+      DUCKDNS_TOKEN: MOJ_TOKEN_DNS
       
     networks:
       - proxy
