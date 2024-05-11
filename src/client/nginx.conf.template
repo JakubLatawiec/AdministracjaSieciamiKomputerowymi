@@ -1,0 +1,62 @@
+worker_processes auto;
+
+events {
+    worker_connections 8000;
+    multi_accept on;
+}
+
+http {
+    # What types to include
+    include /etc/nginx/mime.types;
+    # Which is the default
+    default_type application-octet-stream;
+
+    upstream backend {
+        server 172.58.117.5:8080;
+    }
+
+    server {
+        # Listen on port 80
+        listen 80;
+        # Logs dir
+        access_log /var/log/nginx/access.log;
+
+        recursive_error_pages   on;
+
+        # all of the status defined at http.cat AND allowed by nginx to be error_page'd
+
+        error_page 404 /status-error.html;
+
+        location /status-error.html {
+            resolver 1.1.1.1 ipv6=off;
+            proxy_ssl_server_name on;
+            proxy_pass https://http.cat/$status;
+            internal;
+        }
+
+        # Root directory
+        root /usr/share/nginx/html;
+        # Index files
+        index index.html;
+
+        # React content
+        location / {
+            # First attempt to serve request as file,
+            # then as directory,
+            # then fall back to redirecting to index.html
+            try_files $uri $uri/ =404; #/index.html;
+        }
+
+        # Proxy to API server
+        location /api {
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-NginX-Proxy true;
+            proxy_pass http://backend;
+            proxy_ssl_session_reuse off;
+            proxy_set_header Host $http_host;
+            proxy_cache_bypass $http_upgrade;
+            proxy_redirect off;
+        }
+    }
+}

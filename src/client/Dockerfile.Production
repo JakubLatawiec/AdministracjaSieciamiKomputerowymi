@@ -1,0 +1,31 @@
+#Użyj gotowego obrazu node w wersji LTS
+FROM node:lts as build
+
+#Ustaw domyślny folder aplikacji w kontenerze
+WORKDIR /app
+
+#Skopiuj pliki zależności aplikacji
+COPY package*.json ./
+COPY *.config.js ./
+COPY *.json ./
+
+#Zainstaluj zależności
+RUN npm install
+
+#Skopiuj pliki źródłowe aplikacji
+COPY . /app
+
+#Zbuduj aplikację w wersji produkcyjnej
+RUN npm run build
+
+#Użyj gotowego obrazu nginx
+FROM nginx
+
+#Skopiuj plik konfiguracyjny nginx
+COPY ./nginx.conf.template /etc/nginx/nginx.conf
+
+#Skopiuj zbudowane pliki aplikacji
+COPY --from=build /app/build /usr/share/nginx/html
+
+#Uruchom serwer
+CMD ["nginx", "-g", "daemon off;"]

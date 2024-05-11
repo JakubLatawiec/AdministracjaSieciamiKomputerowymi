@@ -1,0 +1,28 @@
+services:
+  frontend:
+    image: nginx-app:0.1 #Wykorzystanie zbudowanego wcześniej obrazu
+    container_name: "frontend"
+    environment:
+      - NGINX_ENVSUBST_OUTPUT_DIR="/etc/nginx/nginx.conf" #Zmienna środowiskowa ze ścieżką konfiguracji
+    networks:
+      frontend: #Przypisanie do sieci "frontend"
+        ipv4_address: 172.58.117.10 #Przypisanie statycznego adresu ip
+      proxy: #Przypisanie do sieci "frontend"
+        ipv4_address: 172.28.117.10 #Przypisanie statycznego adresu ip
+    labels:
+      traefik.enable: true
+
+      traefik.docker.network: proxy
+
+      #HTTP
+      traefik.http.routers.frontend.entrypoints: web
+      traefik.http.routers.frontend.rule: Host(`frontend.jlatawiec.duckdns.org`)
+      
+
+      #HTTPS:
+      traefik.http.routers.frontend-secure.entrypoints: websecure
+      traefik.http.routers.frontend-secure.rule: Host(`frontend.jlatawiec.duckdns.org`)
+      traefik.http.routers.frontend-secure.tls: true
+      traefik.http.routers.frontend-secure.tls.certresolver: letsencrypt
+      "traefik.http.routers.frontend-secure.tls.domains[0].main": jlatawiec.duckdns.org
+      "traefik.http.routers.frontend-secure.tls.domains[0].sans": "*.jlatawiec.duckdns.org"
