@@ -204,3 +204,15 @@ Kontener "frontend" z pliku compose.yaml zostanie nadpisany kontenerem o tej sam
 
 ### Wynik:
 ![Alt text](https://github.com/JakubLatawiec/AdministracjaSieciamiKomputerowymi/blob/main/Lab2/Screenshots/ProductionWebsite.png?raw=true)
+
+-   Jakie będą różnice między środowiskami dev i prod?
+Środowisko deweloperskie jest uruchamiane przez serwer deweloperski, który zapewnia dodatkowe opcję debugowania i jest wolniejszy. Kontener z deweloperską konfiguracją ma podpięte wolimeny przez co możemy wprowadzać zmiany w kodzie. W środowisku produkcyjnym budujemy aplikację i hostujemy jej pliki poprzez serwer nginx. Zmiany w kodzie nastąpią dopiero po ponownym przebudowaniu aplikacji i ponownym uruchomieniu serwera. Dodatkowo nginx zapewnia dodatkowe konfigurację.
+
+-   Jakie różnice pojawiają się w konfiguracji docker-compose.yaml?
+W produkcyjnym docker compose zmieniamy tylko porty na których działa aplikacja, zmienne środowiskowe, oraz obraz kontenera.
+
+-   Jak wykorzystać wiele plików yml i dlaczego?
+Wiele plików yaml możemy wykorzystywać za pomocą komendy docker compose i wielokrotnego wykorzystania flagi -f w której podajemy ścieżki do kolejnych plików yaml. Pozwala to na włączanie tylko interesujących nas konfiguracji aplikacji.
+
+-   Jaka jest rola docker-compose.override.yml?
+Pozwala on nadpisywać lub dopisywać do wcześniej zdefiniowanej konfiguracji.
